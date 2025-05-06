@@ -1,6 +1,9 @@
+// Автор: Высоцкая И.Д.
 #pragma once
 #include <string>
 #include <iostream>
+#include <sstream> // заголовочный файл с классами, функциями и переменными для организации работы со строками
+#include <stdexcept>
 #include "..\Stack\Stack_class.h"
 
 using namespace std;
@@ -86,16 +89,21 @@ public:
 	}
 
 	/// Метод для вычислений
-	void calc_stack()
+	/// Бросается исключение, если введена пустая строка
+	/// const string& str - ссылка на строку
+	float calc_stack(const string& str)
 	{
-		while (true)
+		stringstream pars_s; // специальная переменная типа stringstream для разбора строки
+		string s; // "слово" 
+		if (str.empty()) // если строка пустая
 		{
-			string s; // строка
-			cin >> s;
-			if (s.size() == 0)
-			{
-				return;
-			}
+			throw length_error("Пустая строка"); // бросаем исключение
+		}
+
+		pars_s << str;
+		while (!pars_s.eof()) // пока не конец строки
+		{ 
+			pars_s >> s;
 
 			if (s == "+") // если символ это оператор(+)
 			{
@@ -117,21 +125,36 @@ public:
 			{
 				onpush(s);
 			}
-			else if (s == "exit")
-			{
-				return;
-			}
 			else if (s == "=") // если символ это оператор(=)
 			{
-				cout<< "\n= " << stack.top() << "\n";
+				return stack.top(); // возвращаем результат со стека
 			}
 		}
+		return stack.top(); // возвращаем результат со стека
 	}
 
 	/// Метод вставки в стек
+	/// Бросает исключение, если введён символ, который нельзя преобразовать в число при отдельном использовании метода
 	void onpush(string s)
 	{
-		float x = stof(s);
-		stack.push(x);
+		try
+		{
+			float x = stof(s); // stof - функция, преобразующая строку в число в плавающей точкой
+		    stack.push(x);
+		}
+		catch (exception e)
+		{
+			throw runtime_error("Невозможно преобразовать в число");
+		}
+		
+	}
+
+	/// Метод очистки
+	void clear()
+	{
+		stack.clear();
 	}
 };
+
+// тесты
+void test();
