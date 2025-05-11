@@ -9,6 +9,7 @@ using namespace std;
 int main()
 {
     setlocale(LC_ALL, "rus");
+    setlocale(LC_NUMERIC, "en");
     Stack_Calc r;
     string s;
     getline(cin, s);

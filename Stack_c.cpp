@@ -40,6 +40,11 @@ void test()
 	assert(rez.calc_stack(str_7) == 845);
 	rez.clear();
 
+	// тест дл€ выражени€ с дес€тичными числами
+	string str_10 = "3.5 3.5 *";
+	assert(rez.calc_stack(str_10) == 12.25);
+	rez.clear();
+
 	// тест на бросание исключени€ при вводе пустой строки
 	try
 	{

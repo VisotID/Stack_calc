@@ -2,7 +2,7 @@
 #pragma once
 #include <string>
 #include <iostream>
-#include <sstream> // заголовочный файл с классами, функци€ми и переменными дл€ организации работы со строками
+#include <sstream> // библиотека с классами, функци€ми и переменными дл€ организации работы со строками
 #include <stdexcept>
 #include "..\Stack\Stack_class.h"
 
@@ -88,7 +88,8 @@ public:
 		stack.push(rez);
 	}
 
-	/// ћетод дл€ вычислений
+	/// ћетод дл€ вычислений выражений в постфиксной форме
+	/// ћогут выполн€тьс€ операции сложени€, вычитани€, умножени€ и делени€
 	/// Ѕросаетс€ исключение, если введена пуста€ строка
 	/// const string& str - ссылка на строку
 	float calc_stack(const string& str)
@@ -121,7 +122,7 @@ public:
 			{
 				div();
 			}
-			else if (isdigit(s[0]) || (s.size() > 1 && (s[0] == '-' || s[0] == '+') && isdigit(s[1])))
+			else if (isdigit(s[0]) || (s.size() > 1 && (s[0] == '-' || s[0] == '+' && isdigit(s[1]) || (s.find('.') != string::npos && isdigit(s[s.find('.')+1]))))) // s.find('.') != string::npos && isdigit(s[s.find('.')+1] - провер€ем есть ли точка, и после точки об€зательно должно быть число, string::npos - спец. константа, используетс€ дл€ индикации отсутстви€ подстроки
 			{
 				onpush(s);
 			}
